@@ -11,6 +11,10 @@ Spring Security
     - Filters will send the authentication object to authentication manager. and this manager will take care completion of authentication
     - Authentication manager will send Authentication providers (can be many) these will provide actual authentication by using userdetailsmanager(user details by username) and password encoder(for password comparison)
     - Authentication provider will let authentication manager whether isAuthenticated is true or false
-    - Security context (for same browser auth , store auth object in session id)
+    - Security context (for same browser auth , store auth object in session id) -> JSESSIONID
+- Important core security methods
+    - AuthorizationFilter(access denied or approved)
+    - DefaultLoginPageGeneratingFilter(to create login page and doing filter)
+    - AbstractAuthenticationProcessingFilter (security context with authentication object it has three filter-> usernamepassword, ott, webauth)
  
 
