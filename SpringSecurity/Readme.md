@@ -13,4 +13,4 @@ Spring Security
     - Authentication provider will let authentication manager whether isAuthenticated is true or false
     - Security context (for same browser auth , store auth object in session id)
  
-    - ![WhatsApp Image 2025-12-23 at 7 08 00 PM](https://github.com/user-attachments/assets/93135a55-e2f4-40bf-94f9-f9dbb8789f87)
+
