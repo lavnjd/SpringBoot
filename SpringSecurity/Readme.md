@@ -18,6 +18,50 @@ Spring Security
     - AbstractAuthenticationProcessingFilter (security context with authentication object it has three filter-> usernamepassword, ott, webauth)
  
     - ![WhatsApp Image 2025-12-23 at 7 08 00 PM](https://github.com/user-attachments/assets/c17db872-f67e-42da-a89c-7615b1bf70c9)
+ 
+
+
+Application - Banking
+
+- Endpoints
+  - Not Secure Endpoints
+    - /contact : This service should accept the details from the contact us page in the UI and save to the DB
+    - /notices: This service should send the notice details from the DB to 'NOTICES' page in the UI
+  - Secure Endpoints
+    - /myAccount: This should send the account details from db
+    - /myBalance
+    - /myLoans
+    - /myCards
+- How to customize certain APIs Secure and certain APIs public(SpringBootWebSecurityConfiguration)
+  - @Bean
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests((requests) -> requests.anyRequest().authenticated());  ---> this is the line where all api endpoints are requied authentication, you can use permitAll(), denyAll()
+        http.formLogin(withDefaults());
+        http.httpBasic(withDefaults());
+        return http.build();
+    }
+  - create a config to override the above funtionality
+  -  @Bean
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests((requests) -> requests.requestMatchers("/myAccount", "/myCards", "/myLoans", "myBalance").authenticated()
+                .requestMatchers("/notices", "/contacts", "/error").permitAll());
+        http.formLogin(withDefaults());
+        http.httpBasic(withDefaults());
+        return http.build();
+ 
+    }
+
+- FormLogin and httpBasic
+  - while opening an endpoint in browser you can disable the formlogin default by changing this line to http.formLogin(f -> f.disble());
+  - In this case since the user is not enetering username and password it won't got to usernamepasswordauthenticationfilter instead it will got to basicauthorizationfilter
+  - And the browser will give default login which will carry username and password as headers with AUTHORIZATION to basicauthorizationfilter
+     -  header will have username:password with base64 encoding will be send to header
+     -  to disbale httpBasic you can make http.httpBasic(hp -> hp.disable()) you will get 403 in browser
+   
+- For multiple User(UserDetailsManager)
+  - JdbcUserDetailsManager : for user storage in DB
+  - InMemoryUserDetailsManager - look into ProjectSecurityConfig this file in the project for more explanation
+  
 
  
 
